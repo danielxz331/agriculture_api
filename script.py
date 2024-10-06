@@ -83,5 +83,5 @@ def status():
     return jsonify({'status': 'ok'})
 
 # Iniciar el servidor
-if _name_ == '_main_':
+if _name_ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8090)
