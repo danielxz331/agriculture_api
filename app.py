@@ -15,11 +15,6 @@ from tempfile import NamedTemporaryFile
 
 app = FastAPI()
 
-
-@app.get("/")
-def read_root():
-    return {"message": "HOlaa, mundoooo"}
-
 # Directorio que contiene los archivos HDF
 carpeta = 'files'
 
@@ -52,6 +47,9 @@ def procesar_archivo(archivo_hdf, lat_target, lon_target):
     fraccion_nubes = np.copy(datos.variables['CldFrcStd'][:])  # Usar np.copy()
     presion_nubes = np.copy(datos.variables['PCldTopStd'][:])  # Usar np.copy()
     calidad = datos.variables['IR_Precip_Est_QC'][:]
+    
+    # Eliminar valores de relleno no válidos para la presión en la parte superior de las nubes
+    presion_nubes = np.where((presion_nubes < 100) | (presion_nubes > 1000), np.nan, presion_nubes)
     
     # Filtrar los datos por calidad (mantener solo calidad 0)
     precip_filtrada = np.where(calidad == 0, precipitacion, np.nan)
