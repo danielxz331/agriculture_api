@@ -1,11 +1,18 @@
 from flask import Flask, request, send_from_directory, jsonify
+from flask_cors import CORS  # Importar CORS
 import os
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from datetime import datetime
 
+matplotlib.use('Agg')
+
 # Crear la aplicación Flask
-app = Flask(_name_)
+app = Flask(__name__)
+
+# Habilitar CORS para todo el público
+CORS(app, resources={r"/": {"origins": ""}})  # Esto habilita CORS para todos los dominios
 
 # Carpeta donde se almacenan los archivos estáticos (imágenes)
 STATIC_DIR = 'static'
